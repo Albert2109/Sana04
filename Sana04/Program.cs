@@ -81,8 +81,20 @@ internal class Program
                 Console.WriteLine($"Стовпець {j + 1}: {sum}");
             }
         }
-    
+        int minSum = FindMinDiagonalSum(arr, n, m);
+        int[] columnSumuss = FindColumnSumsWithNegative1(arr, n, m);
 
+        Console.WriteLine($"Мінімум серед сум модулів елементів діагоналей, паралельних побічній діагоналі: {minSum}");
+        Console.WriteLine("Суми елементів в стовбцях, які містять хоча б один від'ємний елемент:");
+
+        for (int j = 0; j < m; j++)
+        {
+            if (columnSumuss[j] != 0)
+            {
+                Console.WriteLine($"Стовбець {j + 1}: {columnSumuss[j]}");
+            }
+        }
+    
 
 }
 
@@ -281,5 +293,56 @@ static int FindMaxParallelDiagonalSum(int[,] arr, int n, int m)
         }
 
         return sum;
+    }
+    static int FindDiagonalSum(int[,] arr, int n, int m, int diagonalNumber)
+    {
+        int diagonalSum = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int j = diagonalNumber - i;
+            if (j >= 0 && j < m)
+            {
+                diagonalSum += Math.Abs(arr[i, j]);
+            }
+        }
+        return diagonalSum;
+    }
+
+    static int FindMinDiagonalSum(int[,] arr, int n, int m)
+    {
+        int minSum = int.MaxValue;
+        for (int diagonalNumber = 0; diagonalNumber < m + n - 1; diagonalNumber++)
+        {
+            int diagonalSum = FindDiagonalSum(arr, n, m, diagonalNumber);
+            minSum = Math.Min(minSum, diagonalSum);
+        }
+        return minSum;
+    }
+    static int[] FindColumnSumsWithNegative1(int[,] arr, int n, int m)
+    {
+        int[] columnSumus = new int[m];
+
+        for (int j = 0; j < m; j++)
+        {
+            bool hasNegative = false;
+
+            for (int i = 0; i < n; i++)
+            {
+                columnSumus[j] += arr[i, j];
+
+                if (arr[i, j] < 0)
+                {
+                    hasNegative = true;
+                }
+            }
+
+            
+            if (!hasNegative)
+            {
+                columnSumus[j] = 0;
+            }
+        }
+
+        return columnSumus;
     }
 }
