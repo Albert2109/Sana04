@@ -56,6 +56,8 @@ internal class Program
 
         int countzerocolumm = Countzerocolumm(arr);
         Console.WriteLine("Кількість стовпців, які містять хоча б один нульовий елемент: " + countzerocolumm);
+        int longestSeriesRow = FindLongestSeriesRow(arr);
+        Console.WriteLine("номер рядка, в якому знаходиться найдовша серія однакових елементів" + longestSeriesRow);
 
     }
 
@@ -146,4 +148,36 @@ internal class Program
 
         return countzerocolumm;
     }
+
+static int FindLongestSeriesRow(int[,] arr)
+{
+    int longestSeriesRow = -1;
+    int maxLength = 0;
+
+    for (int i = 0; i < arr.GetLength(0); i++)
+    {
+        int currentLength = 1;
+
+        for (int j = 1; j < arr.GetLength(1); j++)
+        {
+            if (arr[i, j] == arr[i, j - 1])
+            {
+                currentLength++;
+            }
+            else
+            {
+                currentLength = 1;
+            }
+
+            if (currentLength > maxLength)
+            {
+                maxLength = currentLength;
+                longestSeriesRow = i;
+            }
+        }
+    }
+
+    return longestSeriesRow;
 }
+}
+
