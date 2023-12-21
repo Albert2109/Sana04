@@ -45,12 +45,14 @@ internal class Program
 
         Console.WriteLine("Кількість додатніх елементів в масиві = " + kilkistdodatnixelementiv);
 
-     
         int maxvalue = FindMaxValue(arr);
         int kilkistmaxvalue = CountMaxValue(arr, maxvalue);
 
         Console.WriteLine("Максимальне число: " + maxvalue);
         Console.WriteLine("Кількість максимального числа: " + kilkistmaxvalue);
+
+        int countzeroline = Countnozeroline(arr);
+        Console.WriteLine("Кількість рядків без нульового елемента: " + countzeroline);
     }
 
     static int FindMaxValue(int[,] arr)
@@ -88,4 +90,31 @@ internal class Program
 
         return count;
     }
+
+    static int Countnozeroline(int[,] arr)
+    {
+        int countzeroline = 0;
+
+        for (int i = 0; i < arr.GetLength(0); i++)
+        {
+            bool hasZero = false;
+
+            for (int j = 0; j < arr.GetLength(1); j++)
+            {
+                if (arr[i, j] == 0)
+                {
+                    hasZero = true;
+                    break;
+                }
+            }
+
+            if (!hasZero)
+            {
+                countzeroline++;
+            }
+        }
+
+        return countzeroline;
+    }
 }
+
