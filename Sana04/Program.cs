@@ -58,11 +58,33 @@ internal class Program
         Console.WriteLine("Кількість стовпців, які містять хоча б один нульовий елемент: " + countzerocolumm);
         int longestSeriesRow = FindLongestSeriesRow(arr);
         Console.WriteLine("номер рядка, в якому знаходиться найдовша серія однакових елементів " + longestSeriesRow);
-        int dob = dobytokdodatnixelements(arr);
-        Console.WriteLine("добуток елементів в тих рядках, які не містять від’ємних елементів " + dob);
-        int maxSum = FindMaxParallelDiagonalSum(arr, n, m);
-        Console.WriteLine("максимум серед сум елементів діагоналей, паралельних головній діагоналі матриці  "+  maxSum);
-    }
+        Console.WriteLine("Добуток елементів в рядках, де немає від'ємних елементів:");
+
+        for (int i = 0; i < n; i++)
+        {
+            if (!RowContainsNegatives(arr, m, i))
+            {
+                int product = ProductRow(arr, m, i);
+                Console.WriteLine($"Рядок {i + 1}: {product}");
+            }
+        }
+    
+    int maxSum = FindMaxParallelDiagonalSum(arr, n, m);
+        Console.WriteLine("максимум серед сум елементів діагоналей, паралельних головній діагоналі матриці  "+maxSum);
+        Console.WriteLine("Суми елементів в стовбцях, де немає від'ємних елементів:");
+
+        for (int j = 0; j < m; j++)
+        {
+            if (!ColumnContainsNegatives(arr, n, j))
+            {
+                int sum = SumColumn(arr, n, j);
+                Console.WriteLine($"Стовпець {j + 1}: {sum}");
+            }
+        }
+    
+
+
+}
 
     static int FindMaxValue(int[,] arr)
     {
@@ -183,21 +205,31 @@ internal class Program
         return longestSeriesRow;
     }
 
-    static int dobytokdodatnixelements(int[,] arr)
+    static bool RowContainsNegatives(int[,] arr, int m, int rowIndex)
     {
-        int dob = 1;
-        for(int i=0;i<arr.GetLength(0);i++) { 
-        for(int j = 0;j<arr.GetLength(1);j++)
+        for (int j = 0; j < m; j++)
+        {
+            if (arr[rowIndex, j] < 0)
             {
-                if (arr[i, j] > 0)
-                {
-                    dob *= arr[i, j];
-                }
+                return true;
             }
         }
-        return dob;
+        return false;
     }
-    static int FindMaxParallelDiagonalSum(int[,] arr, int n, int m)
+
+    static int ProductRow(int[,] arr, int m, int rowIndex)
+    {
+        int product = 1;
+
+        for (int j = 0; j < m; j++)
+        {
+            product *= arr[rowIndex, j];
+        }
+
+        return product;
+    }
+
+static int FindMaxParallelDiagonalSum(int[,] arr, int n, int m)
     {
         int maxSum = int.MinValue;
 
@@ -224,5 +256,30 @@ internal class Program
         }
 
         return maxSum;
+    }
+    static bool ColumnContainsNegatives(int[,] arr, int n, int columnIndex)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i, columnIndex] < 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+   
+
+    static int SumColumn(int[,] arr, int n, int columnIndex)
+    {
+        int sum = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            sum += arr[i, columnIndex];
+        }
+
+        return sum;
     }
 }
