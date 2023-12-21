@@ -57,8 +57,9 @@ internal class Program
         int countzerocolumm = Countzerocolumm(arr);
         Console.WriteLine("Кількість стовпців, які містять хоча б один нульовий елемент: " + countzerocolumm);
         int longestSeriesRow = FindLongestSeriesRow(arr);
-        Console.WriteLine("номер рядка, в якому знаходиться найдовша серія однакових елементів" + longestSeriesRow);
-
+        Console.WriteLine("номер рядка, в якому знаходиться найдовша серія однакових елементів " + longestSeriesRow);
+        int dob = dobytokdodatnixelements(arr);
+        Console.WriteLine("добуток елементів в тих рядках, які не містять від’ємних елементів " + dob);
     }
 
     static int FindMaxValue(int[,] arr)
@@ -149,35 +150,49 @@ internal class Program
         return countzerocolumm;
     }
 
-static int FindLongestSeriesRow(int[,] arr)
-{
-    int longestSeriesRow = -1;
-    int maxLength = 0;
-
-    for (int i = 0; i < arr.GetLength(0); i++)
+    static int FindLongestSeriesRow(int[,] arr)
     {
-        int currentLength = 1;
+        int longestSeriesRow = -1;
+        int maxLength = 0;
 
-        for (int j = 1; j < arr.GetLength(1); j++)
+        for (int i = 0; i < arr.GetLength(0); i++)
         {
-            if (arr[i, j] == arr[i, j - 1])
-            {
-                currentLength++;
-            }
-            else
-            {
-                currentLength = 1;
-            }
+            int currentLength = 1;
 
-            if (currentLength > maxLength)
+            for (int j = 1; j < arr.GetLength(1); j++)
             {
-                maxLength = currentLength;
-                longestSeriesRow = i;
+                if (arr[i, j] == arr[i, j - 1])
+                {
+                    currentLength++;
+                }
+                else
+                {
+                    currentLength = 1;
+                }
+
+                if (currentLength > maxLength)
+                {
+                    maxLength = currentLength;
+                    longestSeriesRow = i;
+                }
             }
         }
+
+        return longestSeriesRow;
     }
 
-    return longestSeriesRow;
+    static int dobytokdodatnixelements(int[,] arr)
+    {
+        int dob = 1;
+        for(int i=0;i<arr.GetLength(0);i++) { 
+        for(int j = 0;j<arr.GetLength(1);j++)
+            {
+                if (arr[i, j] > 0)
+                {
+                    dob *= arr[i, j];
+                }
+            }
+        }
+        return dob;
+    }
 }
-}
-
