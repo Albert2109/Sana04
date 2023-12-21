@@ -60,6 +60,8 @@ internal class Program
         Console.WriteLine("номер рядка, в якому знаходиться найдовша серія однакових елементів " + longestSeriesRow);
         int dob = dobytokdodatnixelements(arr);
         Console.WriteLine("добуток елементів в тих рядках, які не містять від’ємних елементів " + dob);
+        int maxSum = FindMaxParallelDiagonalSum(arr, n, m);
+        Console.WriteLine("максимум серед сум елементів діагоналей, паралельних головній діагоналі матриці  "+  maxSum);
     }
 
     static int FindMaxValue(int[,] arr)
@@ -194,5 +196,33 @@ internal class Program
             }
         }
         return dob;
+    }
+    static int FindMaxParallelDiagonalSum(int[,] arr, int n, int m)
+    {
+        int maxSum = int.MinValue;
+
+        
+        for (int j = 0; j < m; j++)
+        {
+            int diagonalSum = 0;
+            for (int i = 0; i < n && i + j < m; i++)
+            {
+                diagonalSum += arr[i, i + j];
+            }
+            maxSum = Math.Max(maxSum, diagonalSum);
+        }
+
+       
+        for (int i = 1; i < n; i++)
+        {
+            int diagonalSum = 0;
+            for (int j = 0; j < m && i + j < n; j++)
+            {
+                diagonalSum += arr[i + j, j];
+            }
+            maxSum = Math.Max(maxSum, diagonalSum);
+        }
+
+        return maxSum;
     }
 }
