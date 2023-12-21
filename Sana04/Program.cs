@@ -94,9 +94,14 @@ internal class Program
                 Console.WriteLine($"Стовбець {j + 1}: {columnSumuss[j]}");
             }
         }
-    
+        int[,] transposedArr = TransposeMatrix(arr, n, m);
 
-}
+        Console.WriteLine("Транспонована матриця:");
+
+       
+        PrintMatrix(transposedArr, m, n);
+
+    }
 
     static int FindMaxValue(int[,] arr)
     {
@@ -344,5 +349,31 @@ static int FindMaxParallelDiagonalSum(int[,] arr, int n, int m)
         }
 
         return columnSumus;
+    }
+    static int[,] TransposeMatrix(int[,] matrix, int rows, int cols)
+    {
+        int[,] transposedMatrix = new int[cols, rows];
+
+        for (int i = 0; i < cols; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                transposedMatrix[i, j] = matrix[j, i];
+            }
+        }
+
+        return transposedMatrix;
+    }
+
+    static void PrintMatrix(int[,] matrix, int rows, int cols)
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                Console.Write(matrix[i, j] + " ");
+            }
+            Console.WriteLine();
+        }
     }
 }
