@@ -51,8 +51,12 @@ internal class Program
         Console.WriteLine("Максимальне число: " + maxvalue);
         Console.WriteLine("Кількість максимального числа: " + kilkistmaxvalue);
 
-        int countzeroline = Countnozeroline(arr);
+        int countzeroline = NOCountnozeroline(arr);
         Console.WriteLine("Кількість рядків без нульового елемента: " + countzeroline);
+
+        int countzerocolumm = Countzerocolumm(arr);
+        Console.WriteLine("Кількість стовпців, які містять хоча б один нульовий елемент: " + countzerocolumm);
+
     }
 
     static int FindMaxValue(int[,] arr)
@@ -91,7 +95,7 @@ internal class Program
         return count;
     }
 
-    static int Countnozeroline(int[,] arr)
+    static int NOCountnozeroline(int[,] arr)
     {
         int countzeroline = 0;
 
@@ -116,5 +120,30 @@ internal class Program
 
         return countzeroline;
     }
-}
 
+    static int Countzerocolumm(int[,] arr)
+    {
+        int countzerocolumm = 0;
+
+        for (int j = 0; j < arr.GetLength(1); j++)
+        {
+            bool hasZero = false;
+
+            for (int i = 0; i < arr.GetLength(0); i++)
+            {
+                if (arr[i, j] == 0)
+                {
+                    hasZero = true;
+                    break;
+                }
+            }
+
+            if (hasZero)
+            {
+                countzerocolumm++;
+            }
+        }
+
+        return countzerocolumm;
+    }
+}
